@@ -3,9 +3,6 @@ import random
 cards=[2,3,4,5,6,7,8,9,10,"J","Q","K","A"] * 4
 random.shuffle(cards)
 
-def win(player_hand, dealer_hand):
-    pass
-
 def calculate_hand_value(hand):
     value=0
     aces=0
@@ -21,7 +18,6 @@ def calculate_hand_value(hand):
         value-=10
         aces-=1
     return value
-
 
 player_hand=[cards.pop(), cards.pop()]
 dealer_hand=[cards.pop(), cards.pop()]
@@ -51,15 +47,25 @@ while player_choice != "s" or calculate_hand_value(player_hand)==21:
     else:
         break
 
-while calculate_hand_value(dealer_hand)<17:
-    if calculate_hand_value(dealer_hand)==21:
-        print("diileril on blackjack")
-    elif calculate_hand_value(dealer_hand)<17:
-        dealer_hand.append(cards.pop())
-        print(f"diiler tõmbas {dealer_hand[-1]}")
-        print(dealer_hand)
-        if calculate_hand_value(dealer_hand)>21:
-            print("diiler põles läbi")
-    else:
-        print(dealer_hand)
+if calculate_hand_value(player_hand)>21:
+    print("diiler võidab")
+else:
+    while calculate_hand_value(dealer_hand)<17:
+        if calculate_hand_value(dealer_hand)==21:
+            print("diileril on blackjack")
+        elif calculate_hand_value(dealer_hand)<17:
+            dealer_hand.append(cards.pop())
+            print(f"diiler tõmbas {dealer_hand[-1]}")
+            print(dealer_hand)
+            if calculate_hand_value(dealer_hand)>21:
+                print("diiler põles läbi")
+        else:
+            print(dealer_hand)
+
+if calculate_hand_value(dealer_hand)==calculate_hand_value(player_hand):
+    print("viik")
+elif calculate_hand_value(dealer_hand)>calculate_hand_value(player_hand) and calculate_hand_value(dealer_hand)<=21:
+    print("diiler võidab")
+elif calculate_hand_value(dealer_hand)<calculate_hand_value(player_hand) and calculate_hand_value(player_hand)<=21:
+    print("sa võidad")
 

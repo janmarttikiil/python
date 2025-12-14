@@ -19,53 +19,62 @@ def calculate_hand_value(hand):
         aces-=1
     return value
 
-player_hand=[cards.pop(), cards.pop()]
-dealer_hand=[cards.pop(), cards.pop()]
+def start_game():
+    
+    player_hand=[cards.pop(), cards.pop()]
+    dealer_hand=[cards.pop(), cards.pop()]
 
-print(f"diiler näitab {dealer_hand[0]} ({dealer_hand})")
-print(f"sul on {player_hand[0]} ja {player_hand[1]}")
+    print(f"diiler näitab {dealer_hand[0]}")
+    print(f"sul on {player_hand[0]} ja {player_hand[1]}")
+    
+    player_choice=None
 
-player_choice=None
-
-while player_choice != "s" or calculate_hand_value(player_hand)==21:
-    if calculate_hand_value(player_hand)==21:
-        print("Blackjack")
-        break
-    player_choice=input("(h)it või (s)tand: ")
-    if player_choice=="h":
-        player_hand.append(cards.pop())
-        print(f"tõmbasid {player_hand[-1]}")
-        print(player_hand)
-        if calculate_hand_value(player_hand)>21:
-            print("põlesid läbi")
-            break
-        elif calculate_hand_value(player_hand)==21:
+    while player_choice != "s" or calculate_hand_value(player_hand)==21:
+        if calculate_hand_value(player_hand)==21:
             print("Blackjack")
             break
+        player_choice=input("(h)it või (s)tand: ")
+        if player_choice=="h":
+            player_hand.append(cards.pop())
+            print(f"tõmbasid {player_hand[-1]}")
+            print(player_hand)
+            if calculate_hand_value(player_hand)>21:
+                print("põlesid läbi")
+                break
+            elif calculate_hand_value(player_hand)==21:
+                print("Blackjack")
+                break
+            else:
+                continue
         else:
-            continue
+            print("sisesta (h)it või (s)tand: ")
+
+    if calculate_hand_value(player_hand)>21:
+        print("diiler võidab")
     else:
-        break
+        while calculate_hand_value(dealer_hand)<17:
+            if calculate_hand_value(dealer_hand)==21:
+                print("diileril on blackjack")
+            elif calculate_hand_value(dealer_hand)<17:
+                dealer_hand.append(cards.pop())
+                print(f"diiler tõmbas {dealer_hand[-1]}")
+                print(dealer_hand)
+                if calculate_hand_value(dealer_hand)>21:
+                    print("diiler põles läbi")
+                    break
+            else:
+                print(dealer_hand)
 
-if calculate_hand_value(player_hand)>21:
-    print("diiler võidab")
-else:
-    while calculate_hand_value(dealer_hand)<17:
-        if calculate_hand_value(dealer_hand)==21:
-            print("diileril on blackjack")
-        elif calculate_hand_value(dealer_hand)<17:
-            dealer_hand.append(cards.pop())
-            print(f"diiler tõmbas {dealer_hand[-1]}")
-            print(dealer_hand)
-            if calculate_hand_value(dealer_hand)>21:
-                print("diiler põles läbi")
-        else:
-            print(dealer_hand)
+    if calculate_hand_value(dealer_hand)==calculate_hand_value(player_hand):
+        print("viik")
+    elif calculate_hand_value(dealer_hand)>calculate_hand_value(player_hand) and calculate_hand_value(dealer_hand)<=21:
+        print("diiler võidab")
+    elif calculate_hand_value(dealer_hand)<calculate_hand_value(player_hand) and calculate_hand_value(player_hand)<=21:
+        print("sa võidad")
+    elif calculate_hand_value(dealer_hand)>21:
+        print("sa võidad")
 
-if calculate_hand_value(dealer_hand)==calculate_hand_value(player_hand):
-    print("viik")
-elif calculate_hand_value(dealer_hand)>calculate_hand_value(player_hand) and calculate_hand_value(dealer_hand)<=21:
-    print("diiler võidab")
-elif calculate_hand_value(dealer_hand)<calculate_hand_value(player_hand) and calculate_hand_value(player_hand)<=21:
-    print("sa võidad")
+start_game()
 
+while input("kas tahad uuesti mängida(ja/ei): ")=="ja":
+    start_game()

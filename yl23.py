@@ -1,8 +1,5 @@
 import random
 
-cards=[2,3,4,5,6,7,8,9,10,"J","Q","K","A"] * 4
-random.shuffle(cards)
-
 def calculate_hand_value(hand):
     value=0
     aces=0
@@ -21,6 +18,9 @@ def calculate_hand_value(hand):
 
 def start_game():
     
+    cards=[2,3,4,5,6,7,8,9,10,"J","Q","K","A"] * 4
+    random.shuffle(cards)
+
     player_hand=[cards.pop(), cards.pop()]
     dealer_hand=[cards.pop(), cards.pop()]
 
@@ -29,11 +29,15 @@ def start_game():
     
     player_choice=None
 
-    while player_choice != "s" or calculate_hand_value(player_hand)==21:
-        if calculate_hand_value(player_hand)==21:
+    while player_choice!="s" or calculate_hand_value(player_hand)==21:
+        
+        player_choice=input("(h)it või (s)tand: ")
+
+        if player_choice=="s":
+            break
+        elif calculate_hand_value(player_hand)==21:
             print("Blackjack")
             break
-        player_choice=input("(h)it või (s)tand: ")
         if player_choice=="h":
             player_hand.append(cards.pop())
             print(f"tõmbasid {player_hand[-1]}")
@@ -48,6 +52,7 @@ def start_game():
                 continue
         else:
             print("sisesta (h)it või (s)tand: ")
+            continue
 
     if calculate_hand_value(player_hand)>21:
         print("diiler võidab")
